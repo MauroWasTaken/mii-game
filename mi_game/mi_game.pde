@@ -35,17 +35,17 @@ void setup() {
   size(1024, 960);
   P1=new player();
   P1.spawn(1);
-  //P2=new player();
-  //P2.spawn(2);
+  P2=new player();
+  P2.spawn(2);
   frameRate(60);
 }
 
 void draw() {
   P1.move();
-  //P2.move();
+  P2.move();
   renderLayer1();
   P1.draw();
-  //P2.draw();
+  P2.draw();
   //renderHUD();
 }
 
@@ -91,6 +91,15 @@ void keyverification(int k, boolean b) {
     break;
   case 102:
     P1.powerUp=2;
+    break;
+  case 103:
+    P2.powerUp=0;
+    break;
+  case 104:
+    P2.powerUp=1;
+    break;
+  case 105:
+    P2.powerUp=2;
     break;
   default:
     break;
@@ -247,7 +256,6 @@ class player {
   int speedY=0;
   int powerUp=0;
   int nbPlayer=0;
-  int maxSpeed=1*blockSize;
 
   void spawn(int nbplayer) {
     if (nbplayer==1) {
@@ -391,6 +399,22 @@ class player {
           }
         }
       }
+      if (nbPlayer==2) {
+        if (keyNum1) {
+          speed=3;
+        } else {
+          speed=2;
+        }
+        if ((!keyLeft)&(!keyRight)) {
+        } else {
+          if (keyLeft) {
+            x-=speed*pixel;
+          }
+          if (keyRight) {
+            x+=speed*pixel;
+          }
+        }
+      }
     }
   }
   void gravity() {
@@ -407,56 +431,48 @@ class player {
   }
   void collisionLeft() {
     float floatX=x, floatY=y;
-    int block;
-    if(powerUp==0){
-       block=levels[currentLvl][round(floatY/blockSize+1.49)][x/blockSize];
-    }else{
-       block=levels[currentLvl][round(floatY/blockSize+0.49)][x/blockSize];
+    int block, block2=0;
+    block=levels[currentLvl][round(floatY/blockSize+1.49)][x/blockSize];
+    if (powerUp!=0) {
+      block2=levels[currentLvl][round(floatY/blockSize+0.49)][x/blockSize];
     }
-    
+
     if (floatX/blockSize>x/blockSize-0.5) {
-      if ((block!=0)&(block!=5)) {
+      if (((block!=0)&(block!=5))|((block2!=0)&(block2!=5))) {
         x=x/blockSize+1;
         x=x*blockSize;
       }
     }
   }
+
   void collisionRight() {
     float floatX=x, floatY=y;
-    int block=0,block2=0;
+    int block=0, block2=0;
     block=levels[currentLvl][round(floatY/blockSize+1.49)][x/blockSize+1];
-    if(powerUp!=0){
-       block2=levels[currentLvl][round(floatY/blockSize+0.49)][x/blockSize+1];
+    if (powerUp!=0) {
+      block2=levels[currentLvl][round(floatY/blockSize+0.49)][x/blockSize+1];
     }
-    
+
     if (floatX/blockSize<x/blockSize+0.5) {
-      if ((block!=0)&(block!=5)) {
+      if (((block!=0)&(block!=5))|((block2!=0)&(block2!=5))) {
         x=x/blockSize;
         x=x*blockSize;
       }
-      /*
-      if ((block!=0)|(block2!=0)) {
-        if ((block!=5)|(block2!=5)) {
-          x=x/blockSize;
-          x=x*blockSize;
-        }
-      }
-      */
     }
   }
   void collisionUp() {
     float floatX=x, floatY=y;
     int block;
     int charHeight;
-    if(powerUp==0){
+    if (powerUp==0) {
       charHeight=1;
       block=levels[currentLvl][y/blockSize+1][round(floatX/blockSize)];
-    }else{
+    } else {
       charHeight=2;
       block=levels[currentLvl][y/blockSize][round(floatX/blockSize)];
     }
     if (floatY/blockSize>y/blockSize) {
-      if (block==2){
+      if (block==2) {
         levels[currentLvl][y/blockSize+2-charHeight][round(floatX/blockSize)]=3;
       }
       if (block==4) {
@@ -468,4 +484,11 @@ class player {
       }
     }
   }
+}
+class mob{
+  int x, y;
+  int speed=2;
+  int speedY=0;
+  int type=0;
+  int nbPlayer=0;
 }
