@@ -3,9 +3,9 @@ class Mob {
   int speed=2;
   int speedY=0;
   int type=0;
-  void spawn(int tempType, int slot) {
-    x=10*blockSize;
-    y=9*blockSize;
+  void spawn(int tempType, int slot,int tempX, int tempY) {
+     x=tempX;
+     y=tempY;
     type=tempType;
     if (type==1) {
       speed=-1;
@@ -19,6 +19,12 @@ class Mob {
       break;
     case 3:
       M3active=true;
+      break;
+    case 4:
+      M4active=true;
+      break;
+    case 5:
+      M5active=true;
       break;
     }
   }
@@ -92,6 +98,7 @@ class Mob {
       playerY=P1.y;
       if (((playerY>=y-blockSize)&(playerY<=y-0.50*blockSize))&((playerX>=x-15*pixel)&(playerX<=x+15*pixel))) {
         killMob(1);
+        P1.speedY=-5;
       }
     }
     if (P2active) {
@@ -99,6 +106,7 @@ class Mob {
       playerY=P2.y;
       if (((playerY>=y-blockSize)&(playerY<=y-0.50*blockSize))&((playerX>=x-15*pixel)&(playerX<=x+15*pixel))) {
         killMob(1);
+        P2.speedY=-5;
       }
     }
   }
@@ -115,6 +123,14 @@ class Mob {
     case 3:
       M3active=false;
       M3=null;
+      break;
+      case 4:
+      M4active=true;
+      M4=null;
+      break;
+    case 5:
+      M5active=true;
+      M5=null;
       break;
     }
   }

@@ -1,19 +1,24 @@
 player P1, P2; //<>//
-Mob M1,M2,M3;
+Mob M1, M2, M3, M4, M5;
 //color gold=color ();
-boolean P1active=false, P2active=false,M1active=false,M2active=false,M3active=false;
+boolean P1active=false, P2active=false, M1active=false, M2active=false, M3active=false, M4active=false, M5active=false;
 int coinCounter=0;
 int maxPowerUp=2;
-int cameraX=0, cameraY=0;
 int currentLvl=0;
 int pixel=4;
 int blockSize=16*pixel;
 boolean keyA=false, keyD=false, keyLeft=false, keyRight=false, keyP=false, keyO=false, keyNum1=false, keyNum2=false;
 int gravity=2*pixel;
+int cameraX=0, cameraY=4*blockSize;
 int[][][] levels=
   {
   //lvl 0
-  {
+  {  
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
+    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
@@ -37,31 +42,30 @@ void setup() {
   size(1024, 960);
   P1=new player();
   P1.spawn(1);
-  P2=new player();
-  P2.spawn(2);
-  M1=new Mob();
-  M1.spawn(1,1);
+  //P2=new player();
+  //P2.spawn(2);
+  addMonster(10*blockSize,9*blockSize,1);
   frameRate(60);
 }
 
 void draw() {
   renderLayer1();
-  if(P1active){
-  P1.move();
+  if (P1active) {
+    P1.move();
   }
-  if(P2active){
-  P2.move();
+  if (P2active) {
+    P2.move();
   }
-  if(M1active){
-  M1.behavior();
+  if (M1active) {
+    M1.behavior();
   }
-  if(M2active){
-  M2.behavior();
+  if (M2active) {
+    M2.behavior();
   }
-  if(M2active){
-  M2.behavior();
+  if (M2active) {
+    M2.behavior();
   }
-  
+
   //renderHUD();
 }
 
@@ -133,7 +137,7 @@ void renderLayer1() {
   clear();
   background(100, 100, 255);
   for (int x=cameraX/blockSize; x<=(cameraX/blockSize)+17; x++) {
-    for (int y=0; y<15; y++) {
+    for (int y=cameraY/blockSize; y<=(cameraX/blockSize)+15; y++) {
       if (y>=levels[currentLvl].length) {
       } else {
         if (x>=levels[currentLvl][y].length) {
@@ -251,18 +255,52 @@ void renderLayer1() {
   }
 }
 void moveCamera() {
-  int average=0;
+  int averageX=0,averageY=0;
   int nbPlayers=0;
   if (P1active) {
     nbPlayers++;
-    average+=P1.x;
+    averageX+=P1.x;
+    averageY+=P1.y;
   }
   if (P2active) {
     nbPlayers++;
-    average+=P2.x;
+    averageX+=P2.x;
+    averageY+=P2.y;
   }
-  average=average/nbPlayers;
-  if (average>cameraX+550) {
-    cameraX=average-550;
+  averageX=averageX/nbPlayers;
+  averageY=averageY/nbPlayers;
+  if (averageX>cameraX+550) {
+    cameraX=averageX-550;
+  }
+  if (averageX<cameraX+200) {
+    cameraX=averageX+200;
+  }
+  //if (averageY>)
+}
+void addMonster(int x, int y, int type) {
+  if (M1active) {
+    if (M2active) {
+      if (M3active) {
+        if (M4active) {
+          if (M5active) {
+          } else {
+            M5=new Mob();
+            M5.spawn(type, 5,x,y);
+          }
+        } else {
+          M4=new Mob();
+          M4.spawn(type, 4,x,y);
+        }
+      } else {
+        M3=new Mob();
+        M3.spawn(type, 3,x,y);
+      }
+    } else {
+      M2=new Mob();
+      M2.spawn(type, 2,x,y);
+    }
+  } else {
+    M1=new Mob();
+    M1.spawn(type, 1,x,y);
   }
 }
