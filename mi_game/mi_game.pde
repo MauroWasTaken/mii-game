@@ -137,7 +137,7 @@ void renderLayer1() {
   clear();
   background(100, 100, 255);
   for (int x=cameraX/blockSize; x<=(cameraX/blockSize)+17; x++) {
-    for (int y=cameraY/blockSize; y<=(cameraX/blockSize)+15; y++) {
+    for (int y=cameraY/blockSize; y<=(cameraY/blockSize)+15; y++) {
       if (y>=levels[currentLvl].length) {
       } else {
         if (x>=levels[currentLvl][y].length) {
@@ -273,7 +273,7 @@ void moveCamera() {
     cameraX=averageX-550;
   }
   if (averageX<cameraX+200) {
-    cameraX=averageX+200;
+    cameraX=averageX-200;
   }
   //if (averageY>)
 }
