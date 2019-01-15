@@ -341,3 +341,15 @@ void killPlayer(int playerID){
       break;
   }
 }
+void spawnPlayer(int playerID){
+  switch (playerID){
+    case 1:
+      P1active=false;
+      P1=null;
+      break;
+    case 2:
+      P2active=false;
+      P2=null;
+      break;
+  }
+}
