@@ -226,7 +226,7 @@ class player {
         if (block==2) {
           levels[currentLvl][y/blockSize+2-charHeight][round(floatX/blockSize)]=3;
         }
-        if (block==4) {
+        if ((block==4)&(powerUp>0)) {
           levels[currentLvl][y/blockSize+2-charHeight][round(floatX/blockSize)]=0;
         }
         if ((block!=0)&(block!=5)) {

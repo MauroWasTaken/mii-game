@@ -1,7 +1,14 @@
+/*
+Author and Owner:Mauro Santos
+
+
+*/
 player P1, P2;
 Mob M1, M2, M3, M4, M5;
-//color gold=color ();
+boolean pair=false;
+int goldR=255, goldG=200, goldI=-1;
 boolean P1active=false, P2active=false, M1active=false, M2active=false, M3active=false, M4active=false, M5active=false;
+boolean PSwitchActive=false;
 int coinCounter=0;
 int maxPowerUp=2;
 int currentLvl=0;
@@ -10,6 +17,7 @@ int blockSize=16*pixel;
 boolean keyA=false, keyD=false, keyLeft=false, keyRight=false, keyP=false, keyO=false, keyNum1=false, keyNum2=false;
 int gravity=2*pixel;
 int cameraX=0, cameraY=4*blockSize;
+int PSwitchTimer=0;
 int[][][] levels=
   {
   //lvl 0
@@ -34,7 +42,7 @@ int[][][] levels=
     {1, 1, 1, 1, 1, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-  },
+  }, 
   {
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
     {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
@@ -55,22 +63,24 @@ int[][][] levels=
     {1, 1, 1, 1, 0, 0, 0, 5, 5, 0, 0, 0, 0, 5, 5, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
     {1, 1, 1, 1, 1, 0, 0, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
     {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-  },
+    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
+  }, 
 };
 
 void setup() {
   //screen with 16 blocks of width and 15 blocks of height
   size(1024, 960);
-  P1=new player();
-  P1.spawn(1);
-  P2=new player();
-  P2.spawn(2);
-  addMonster(10*blockSize,9*blockSize,1);
+  spawnPlayer(1);
+  spawnPlayer(2);
+  addMonster(10*blockSize, 9*blockSize, 1);
   frameRate(60);
+  PSwitchOn();
 }
 
 void draw() {
+  pair=!pair;
+  PSwitchTick();
+  changeGold();
   renderLayer1();
   if (P1active) {
     P1.move();
@@ -87,8 +97,6 @@ void draw() {
   if (M2active) {
     M2.behavior();
   }
-
-  //renderHUD();
 }
 
 void keyPressed() {
@@ -144,8 +152,8 @@ void keyverification(int k, boolean b) {
   case 105:
     P2.powerUp=2;
     break;
- case 38:
-     killPlayer(2);
+  case 38:
+    killPlayer(2);
     break;
   default:
     break;
@@ -202,7 +210,7 @@ void renderLayer1() {
               break;
               //[?] block
             case 2:
-              fill(255, 255, 51);
+              fill(goldR, goldG, 51);
               rect((x*blockSize-cameraX), (y*blockSize-cameraY), blockSize, blockSize);
               fill(230, 115, 0);
               rect((x*blockSize-cameraX), (y*blockSize-cameraY), 15*pixel, pixel);
@@ -261,7 +269,7 @@ void renderLayer1() {
               rect((x*blockSize-cameraX)+8*pixel, (y*blockSize-cameraY)+1*pixel, 3*pixel, 15*pixel);
               rect((x*blockSize-cameraX)+7*pixel, (y*blockSize-cameraY)+2*pixel, 5*pixel, 13*pixel);
               rect((x*blockSize-cameraX)+6*pixel, (y*blockSize-cameraY)+4*pixel, 7*pixel, 9*pixel);
-              fill(255, 215, 0);
+              fill(goldR, goldG, 0);
               rect((x*blockSize-cameraX)+5*pixel, (y*blockSize-cameraY)+1*pixel, 4*pixel, 15*pixel);
               rect((x*blockSize-cameraX)+4*pixel, (y*blockSize-cameraY)+2*pixel, 6*pixel, 13*pixel);
               rect((x*blockSize-cameraX)+3*pixel, (y*blockSize-cameraY)+4*pixel, 8*pixel, 9*pixel);
@@ -280,7 +288,7 @@ void renderLayer1() {
   }
 }
 void moveCamera() {
-  int averageX=0,averageY=0;
+  int averageX=0, averageY=0;
   int nbPlayers=0;
   if (P1active) {
     nbPlayers++;
@@ -310,46 +318,98 @@ void addMonster(int x, int y, int type) {
           if (M5active) {
           } else {
             M5=new Mob();
-            M5.spawn(type, 5,x,y);
+            M5.spawn(type, 5, x, y);
           }
         } else {
           M4=new Mob();
-          M4.spawn(type, 4,x,y);
+          M4.spawn(type, 4, x, y);
         }
       } else {
         M3=new Mob();
-        M3.spawn(type, 3,x,y);
+        M3.spawn(type, 3, x, y);
       }
     } else {
       M2=new Mob();
-      M2.spawn(type, 2,x,y);
+      M2.spawn(type, 2, x, y);
     }
   } else {
     M1=new Mob();
-    M1.spawn(type, 1,x,y);
+    M1.spawn(type, 1, x, y);
   }
 }
-void killPlayer(int playerID){
-  switch (playerID){
-    case 1:
-      P1active=false;
-      P1=null;
-      break;
-    case 2:
-      P2active=false;
-      P2=null;
-      break;
+void killPlayer(int playerID) {
+  switch (playerID) {
+  case 1:
+    P1active=false;
+    P1=null;
+    break;
+  case 2:
+    P2active=false;
+    P2=null;
+    break;
   }
 }
-void spawnPlayer(int playerID){
-  switch (playerID){
-    case 1:
-      P1active=false;
-      P1=null;
-      break;
-    case 2:
-      P2active=false;
-      P2=null;
-      break;
+void spawnPlayer(int playerID) {
+  switch (playerID) {
+  case 1:
+    P1=new player();
+    P1.spawn(1);
+    break;
+  case 2:
+    P2=new player();
+    P2.spawn(2);
+    break;
+  }
+}
+void changeGold() {
+  if (pair) {
+    if (goldR>255) {
+      goldI=-1;
+    }
+    if (goldR<180) {
+      goldI=1;
+    }
+    goldR+=3*goldI;
+    goldG+=2*goldI;
+  }
+}
+void PSwitchOn() {
+  PSwitchTimer=5*60;
+  changecoins();
+  PSwitchActive=true;
+}
+void PSwitchTick() {
+  if (PSwitchActive) {
+    if (PSwitchTimer==0) {
+      changecoins();
+      PSwitchActive=false;
+    } else {
+      PSwitchTimer--;
+    }
+  }
+}
+void changecoins() {
+  for (int i=0; i<levels[currentLvl].length; i++) {
+    for (int j=0; j<levels[currentLvl][i].length; j++) {
+      switch (levels[currentLvl][i][j]) {
+      case 4:
+        levels[currentLvl][i][j]=5;
+        break;
+      case 5:
+        levels[currentLvl][i][j]=4;
+        break;
+      }
+      /*
+        if (levels[currentLvl][i][j]==4) {
+       levels[currentLvl][i][j]=6;
+       }
+       if (levels[currentLvl][i][j]==5) {
+       levels[currentLvl][i][j]=4;
+       }
+       if (levels[currentLvl][i][j]==5) {
+       levels[currentLvl][i][j]=4;
+       }
+       */
+    }
   }
 }
