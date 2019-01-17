@@ -3,6 +3,8 @@ Author and Owner:Mauro Santos
 
 
 */
+//import processing.sound.*;
+//SoundFile file;
 player P1, P2;
 Mob M1, M2, M3, M4, M5;
 boolean pair=false;
@@ -399,17 +401,6 @@ void changecoins() {
         levels[currentLvl][i][j]=4;
         break;
       }
-      /*
-        if (levels[currentLvl][i][j]==4) {
-       levels[currentLvl][i][j]=6;
-       }
-       if (levels[currentLvl][i][j]==5) {
-       levels[currentLvl][i][j]=4;
-       }
-       if (levels[currentLvl][i][j]==5) {
-       levels[currentLvl][i][j]=4;
-       }
-       */
     }
   }
 }
