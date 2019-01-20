@@ -73,7 +73,7 @@ void setup() {
   addMonster(10*blockSize, 9*blockSize, 1);
   frameRate(60);
   PSwitchOn();
-  file = new SoundFile(this, "mario.wav");
+  file = new SoundFile(this, "musics/mario.wav");
   file.play();
 }
 
