@@ -72,7 +72,6 @@ void setup() {
   spawnPlayer(2);
   addMonster(10*blockSize, 9*blockSize, 1);
   frameRate(60);
-  PSwitchOn();
   file = new SoundFile(this, "musics/mario.wav");
   file.play();
 }
@@ -406,5 +405,16 @@ void changecoins() {
         break;
       }
     }
+  }
+}
+boolean gameOverchk(){
+  if((!P1active)&(!P2active)){
+    fill(0,0,0);
+    rect(0,0,1024,960);
+    fill(255,255,255);
+    text("GAMEOVER",400,300);
+    return true;
+  }else{
+    return false;
   }
 }
