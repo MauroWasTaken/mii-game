@@ -2,23 +2,23 @@
 
 /*
 Author and Owner : Mauro Santos
-TODO:
-  change round function with something else
-  add sfx
-  try to make an array of ennemies
-  add background music
-  make so that goombas can kill you
-  add pipes, end pole
-  add kill blocks(pits, lava, spikes)
-  add mushrooms, flowers ...
-  add green and red koopas 
-  add a pswitch block
-  add coin counter
-  add lives system
-  add lvl loading system
-  add animations
-
-*/
+ TODO:
+ change round function with something else
+ add sfx
+ try to make an array of ennemies
+ add background music
+ make so that goombas can kill you
+ add pipes, end pole
+ add kill blocks(pits, lava, spikes)
+ add mushrooms, flowers ...
+ add green and red koopas 
+ add a pswitch block
+ add coin counter
+ add lives system
+ add lvl loading system
+ add animations
+ 
+ */
 import vsync.*;
 import processing.sound.*;
 SoundFile file;
@@ -77,30 +77,33 @@ void setup() {
 }
 
 void draw() {
-  pair=!pair;
-  PSwitchTick();
-  changeGold();
-  renderLayer1();
-  if (P1active) {
-    P1.move();
-  }
-  if (P2active) {
-    P2.move();
-  }
-  if (M1active) {
-    M1.behavior();
-  }
-  if (M2active) {
-    M2.behavior();
-  }
-  if (M3active) {
-    M3.behavior();
-  }
-  if (M4active) {
-    M4.behavior();
-  }
-  if (M5active) {
-    M5.behavior();
+
+  if (!gameOverchk()) {
+    pair=!pair;
+    PSwitchTick();
+    changeGold();
+    renderLayer1();
+    if (P1active) {
+      P1.move();
+    }
+    if (P2active) {
+      P2.move();
+    }
+    if (M1active) {
+      M1.behavior();
+    }
+    if (M2active) {
+      M2.behavior();
+    }
+    if (M3active) {
+      M3.behavior();
+    }
+    if (M4active) {
+      M4.behavior();
+    }
+    if (M5active) {
+      M5.behavior();
+    }
   }
 }
 
@@ -407,14 +410,14 @@ void changecoins() {
     }
   }
 }
-boolean gameOverchk(){
-  if((!P1active)&(!P2active)){
-    fill(0,0,0);
-    rect(0,0,1024,960);
-    fill(255,255,255);
-    text("GAMEOVER",400,300);
+boolean gameOverchk() {
+  if ((!P1active)&(!P2active)) {
+    fill(0, 0, 0);
+    rect(0, 0, 1024, 960);
+    fill(255, 255, 255);
+    text("GAMEOVER", 400, 300);
     return true;
-  }else{
+  } else {
     return false;
   }
 }
