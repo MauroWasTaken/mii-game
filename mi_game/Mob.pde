@@ -3,9 +3,9 @@ class Mob {
   int speed=2;
   int speedY=0;
   int type=0;
-  void spawn(int tempType, int slot,int tempX, int tempY) {
-     x=tempX;
-     y=tempY;
+  void spawn(int tempType, int slot, int tempX, int tempY) {
+    x=tempX;
+    y=tempY;
     type=tempType;
     if (type==1) {
       speed=-1;
@@ -96,9 +96,23 @@ class Mob {
     if (P1active) {
       playerX=P1.x;
       playerY=P1.y;
+      //up collision
       if (((playerY>=y-blockSize)&(playerY<=y-0.50*blockSize))&((playerX>=x-15*pixel)&(playerX<=x+15*pixel))) {
         killMob(1);
         P1.speedY=-5;
+      } else {
+        //left collision
+        if (((playerY>=y-4*pixel)&(playerY<=y+4*pixel))&((playerX>=x-15*pixel)&(playerX<=x+15*pixel))) {
+          killPlayer(1);
+        }
+        //right collision
+        if (((playerY>=y-4*pixel)&(playerY<=y+4*pixel))&((playerX-1*pixel>=x)&(playerX+1*pixel<=x))) {
+          killPlayer(1);
+        }
+        //down collision
+        if (((playerY-blockSize<=y)&(playerY-0.50*blockSize>=y))&((playerX>=x-15*pixel)&(playerX<=x+15*pixel))) {
+          killPlayer(1);
+        }
       }
     }
     if (P2active) {
@@ -107,6 +121,19 @@ class Mob {
       if (((playerY>=y-blockSize)&(playerY<=y-0.50*blockSize))&((playerX>=x-15*pixel)&(playerX<=x+15*pixel))) {
         killMob(1);
         P2.speedY=-5;
+      }else {
+        //left collision
+        if (((playerY>=y-4*pixel)&(playerY<=y+4*pixel))&((playerX>=x-15*pixel)&(playerX<=x+15*pixel))) {
+          killPlayer(2);
+        }
+        //right collision
+        if (((playerY>=y-4*pixel)&(playerY<=y+4*pixel))&((playerX-1*pixel>=x)&(playerX+1*pixel<=x))) {
+          killPlayer(2);
+        }
+        //down collision
+        if (((playerY-blockSize<=y)&(playerY-0.50*blockSize>=y))&((playerX>=x-15*pixel)&(playerX<=x+15*pixel))) {
+          killPlayer(2);
+        }
       }
     }
   }
@@ -124,7 +151,7 @@ class Mob {
       M3active=false;
       M3=null;
       break;
-      case 4:
+    case 4:
       M4active=true;
       M4=null;
       break;

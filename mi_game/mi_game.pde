@@ -1,5 +1,3 @@
-
-
 /*
 Author and Owner : Mauro Santos
  TODO:
@@ -77,7 +75,6 @@ void setup() {
 }
 
 void draw() {
-
   if (!gameOverchk()) {
     pair=!pair;
     PSwitchTick();
@@ -346,6 +343,7 @@ void addMonster(int x, int y, int type) {
   }
 }
 void killPlayer(int playerID) {
+  delay(200);
   switch (playerID) {
   case 1:
     P1active=false;
