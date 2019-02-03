@@ -1,5 +1,5 @@
 class player {
-  boolean direction;
+  boolean direction=true;
   int x, y;
   int speed=2;
   int speedY=0;
@@ -29,30 +29,15 @@ class player {
   }
 
   void drawPlayer() {
-    switch(nbPlayer) {
-    case 1:
-      fill(255, 0, 0);
-      break;
-    case 2:
-      fill(0, 255, 0);
-      break;
+    drawPlayerSprite(nbPlayer, 11, direction);
+  }
+  int spriteControl() {
+    int sprite=0;
+    if(!isGrounded()){
+    sprite+=1;
     }
-
-    switch(powerUp) {
-    case 0:
-      rect(x-cameraX, y-cameraY+blockSize, blockSize, blockSize);
-      break;
-    case 1:
-      rect(x-cameraX, y-cameraY, blockSize, 2*blockSize);
-      break;
-    case 2:
-      rect(x-cameraX, y-cameraY, blockSize, 2*blockSize);
-      fill(240, 240, 240);
-      noStroke();
-      rect(x-cameraX, y-cameraY+blockSize-8*pixel, blockSize, 24*pixel );
-      //rect(x-cameraX, y-cameraY+blockSize+8*pixel, blockSize, 8*pixel );
-      break;
-    }
+    sprite+=powerUp*10;
+    return sprite;
   }
   boolean isGrounded() {
     int tempUnder=under();
@@ -104,9 +89,11 @@ class player {
         } else {
           if (keyA) {
             x-=speed*pixel;
+            direction=false;
           }
           if (keyD) {
             x+=speed*pixel;
+            direction=true;
           }
         }
         if (keyP) {
@@ -123,9 +110,11 @@ class player {
         } else {
           if (keyLeft) {
             x-=speed*pixel;
+            direction=false;
           }
           if (keyRight) {
             x+=speed*pixel;
+            direction=true;
           }
         }
         if (keyNum2) {

@@ -67,10 +67,10 @@ void setup() {
   smooth();
   spawnPlayer(1);
   spawnPlayer(2);
-  addMonster(10*blockSize, 9*blockSize, 1);
+  //addMonster(10*blockSize, 9*blockSize, 1);
   frameRate(60);
   file = new SoundFile(this, "musics/mario.wav");
-  file.play();
+  //file.play();
 }
 
 void draw() {
