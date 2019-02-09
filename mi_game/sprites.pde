@@ -209,6 +209,7 @@ void drawPlayerSprite(int player, int sprite, boolean direction) {
     rect((x-cameraX)+invNeg(dirS-0)*pixel, (y-cameraY)+24*pixel, dirM*3*pixel, 5*pixel);
     rect((x-cameraX)+invNeg(dirS-0)*pixel, (y-cameraY)+24*pixel, dirM*2*pixel, 6*pixel);
     rect((x-cameraX)+invNeg(dirS-0)*pixel, (y-cameraY)+24*pixel, dirM*1*pixel, 7*pixel);
+    rect((x-cameraX)+invNeg(dirS-11)*pixel, (y-cameraY)+23*pixel, dirM*4*pixel, 5*pixel);
     //face hair and eyes
     rect((x-cameraX)+invNeg(dirS-7)*pixel, (y-cameraY)+10*pixel, dirM*1*pixel, 1*pixel);
     rect((x-cameraX)+invNeg(dirS-8)*pixel, (y-cameraY)+10*pixel, dirM*5*pixel, 2*pixel);
@@ -224,10 +225,10 @@ void drawPlayerSprite(int player, int sprite, boolean direction) {
     rect((x-cameraX)+invNeg(dirS-4)*pixel, (y-cameraY)+12*pixel, dirM*1*pixel, 1*pixel);
     fill(0, 0, 205);
     //pants
-    rect((x-cameraX)+invNeg(dirS-3)*pixel, (y-cameraY)+23*pixel, dirM*4*pixel, 6*pixel);
-    rect((x-cameraX)+invNeg(dirS-4)*pixel, (y-cameraY)+22*pixel, dirM*4*pixel, 6*pixel);
-    rect((x-cameraX)+invNeg(dirS-5)*pixel, (y-cameraY)+21*pixel, dirM*6*pixel, 6*pixel);
-    rect((x-cameraX)+invNeg(dirS-10)*pixel, (y-cameraY)+27*pixel, dirM*2*pixel, 1*pixel);
+    rect((x-cameraX)+invNeg(dirS-3)*pixel, (y-cameraY)+23*pixel, dirM*3*pixel, 6*pixel);
+    rect((x-cameraX)+invNeg(dirS-4)*pixel, (y-cameraY)+22*pixel, dirM*3*pixel, 6*pixel);
+    rect((x-cameraX)+invNeg(dirS-5)*pixel, (y-cameraY)+21*pixel, dirM*5*pixel, 6*pixel);
+    rect((x-cameraX)+invNeg(dirS-9)*pixel, (y-cameraY)+27*pixel, dirM*2*pixel, 1*pixel);
     fill(232, 199, 132);
     //buttons
     //hat sign
